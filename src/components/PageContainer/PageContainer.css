@@ -1,4 +1,7 @@
 .container {
-  margin: 2rem auto 0 auto;
+  flex: 1 1 auto;
+  margin: 2rem auto 2rem auto;
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
 }

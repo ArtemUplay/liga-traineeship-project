@@ -1,0 +1,32 @@
+.list-item {
+  background-color: #fff;
+  display: flex;
+  padding: 10px;
+  justify-content: space-between;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.list-item_completed {
+  background-color: rgba(139, 139, 139, 0.5);
+}
+
+.list-item__name {
+  margin: 0;
+  font-size: 20px;
+  color: #9395d3;
+  transition: all 0.3s ease;
+}
+
+.list-item__name_completed {
+  text-decoration: line-through;
+}
+
+.list-item__info {
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+.list-item__info_completed {
+  text-decoration: line-through;
+}
