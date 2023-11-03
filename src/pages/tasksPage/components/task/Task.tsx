@@ -16,10 +16,10 @@ export const Task = ({ id, name, info, isImportant, isCompleted }: ITaskProps) =
       }`}>
       <div className={styles['task-list__info-wrapper']}>
         <h3 className={`${styles['list-item__name']} ${isCompletedValue ? styles['list-item__name_completed'] : ''}`}>
-          Task 1
+          {name}
         </h3>
         <p className={`${styles['list-item__info']} ${isCompletedValue ? styles['list-item__info_completed'] : ''}`}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.
+          {info}
         </p>
       </div>
       <TaskButtons

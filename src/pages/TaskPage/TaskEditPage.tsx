@@ -1,15 +1,20 @@
-import { useParams } from 'react-router-dom';
-import styles from './editForm.module.scss';
-import { IEditFormPageProps } from './EditFormPage.types';
-import { Checkbox, LinkComponent, TextField } from 'components/index';
+import { useNavigate, useParams } from 'react-router-dom';
+import styles from './TaskEditPage.module.scss';
+import { ITaskEditPageProps } from './TaskEditPage.types';
+import { Checkbox, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
 
-export const EditFormPage = ({ tasks, setTasks }: IEditFormPageProps) => {
+export const TaskEditPage = ({ tasks }: ITaskEditPageProps) => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const currentTask = tasks.find((task) => {
     return task.id === id;
   });
+
+  const onButtonNavigateClick = () => {
+    navigate(Paths.TASK_LIST, { replace: true });
+  };
 
   return (
     <>
@@ -19,7 +24,9 @@ export const EditFormPage = ({ tasks, setTasks }: IEditFormPageProps) => {
         <Checkbox label="isImportant" checked={currentTask && currentTask.isImportant} />
         {id && <Checkbox label="isCompleted" checked={currentTask && currentTask.isCompleted} />}
       </form>
-      <LinkComponent path={Paths.TASK_LIST} text={id ? 'Edit task' : 'Add task'} />
+      <button type="button" className={styles.form__button} onClick={onButtonNavigateClick}>
+        {id ? 'Edit task' : 'Add task'}
+      </button>
     </>
   );
 };
