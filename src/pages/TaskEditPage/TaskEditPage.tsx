@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './TaskEditPage.module.scss';
-import { ITaskEditPageProps } from './TaskEditPage.types';
 import { Checkbox, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
 
-export const TaskEditPage = ({ tasks }: ITaskEditPageProps) => {
+export const TaskEditPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
