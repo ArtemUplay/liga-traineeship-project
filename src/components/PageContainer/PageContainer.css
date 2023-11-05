@@ -1,7 +1,10 @@
 .container {
+  box-sizing: border-box;
   flex: 1 1 auto;
-  margin: 2rem auto 2rem auto;
+  padding: 2rem 0;
+  margin: 0 auto;
   max-width: 600px;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }

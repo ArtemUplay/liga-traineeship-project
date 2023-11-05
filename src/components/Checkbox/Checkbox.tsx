@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { CheckboxProps } from './Checkbox.types';
 
-export function Checkbox({ label, checked, onChange, disabled, containerClassName = '' }: CheckboxProps) {
+function CheckboxComponent({ label, checked, onChange, disabled, containerClassName = '' }: CheckboxProps) {
   return (
     <div className={`form-check mb-3 ${containerClassName}`}>
       <input
@@ -19,3 +19,5 @@ export function Checkbox({ label, checked, onChange, disabled, containerClassNam
     </div>
   );
 }
+
+export const Checkbox = memo(CheckboxComponent);

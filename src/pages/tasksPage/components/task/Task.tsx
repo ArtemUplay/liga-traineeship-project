@@ -1,12 +1,8 @@
-import { useState } from 'react';
 import { TaskButtons } from '../taskButtons/TaskButtons';
 import styles from './Task.module.scss';
 import { ITaskProps } from './Task.types';
 
 export const Task = ({ id, name, info, isImportant, isCompleted }: ITaskProps) => {
-  // const [isImportantValue, setIsImportantValue] = useState<boolean>(isImportant);
-  // const [isCompletedValue, setIsCompletedValue] = useState<boolean>(isCompleted);
-
   return (
     <li
       className={`${styles['task-list__item']} ${styles['list-item']} ${
@@ -20,7 +16,7 @@ export const Task = ({ id, name, info, isImportant, isCompleted }: ITaskProps) =
           {info}
         </p>
       </div>
-      <TaskButtons id={id} />
+      <TaskButtons id={id} isImportant={isImportant} isCompleted={isCompleted} />
     </li>
   );
 };

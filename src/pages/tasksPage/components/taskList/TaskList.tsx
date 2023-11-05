@@ -4,7 +4,6 @@ import { useAppSelector } from 'src/store/types/store.types';
 
 export const TaskList = () => {
   const tasks = useAppSelector((state) => state.tasks.tasksArray);
-
   return (
     <ul className={styles['task-list']}>
       {tasks.length > 0 ? (

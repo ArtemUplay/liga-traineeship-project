@@ -3,16 +3,8 @@ import { useDispatch } from 'react-redux';
 import { TaskList } from './components/taskList/TaskList';
 import { Paths } from 'constants/constants';
 import { LinkComponent } from 'components/index';
-import { tasks } from 'src/__mocks__/mocks';
-import { getTasks } from 'src/store/slices';
 
 export const TasksPage = () => {
-  const dispath = useDispatch();
-
-  useEffect(() => {
-    dispath(getTasks(tasks));
-  }, []);
-
   return (
     <>
       <TaskList />

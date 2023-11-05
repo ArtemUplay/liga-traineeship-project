@@ -2,22 +2,11 @@ import { Link } from 'react-router-dom';
 import styles from './TaskButtons.module.scss';
 import { ITaskButtonProps } from './TaskButtons.types';
 import { Paths } from 'constants/constants';
-import { useAppDispatch, useAppSelector } from 'src/store/types/store.types';
-import { deleteTask, markTaskIsCompleted, markTaskIsImportant } from 'src/store/slices';
+import { useAppDispatch } from 'src/store/types/store.types';
+import { deleteTask, markTaskAsCompleted, markTaskAsImportant } from 'src/store/slices';
 
-export const TaskButtons = ({ id }: ITaskButtonProps) => {
+export const TaskButtons = ({ id, isCompleted, isImportant }: ITaskButtonProps) => {
   const dispatch = useAppDispatch();
-  const tasks = useAppSelector((state) => state.tasks.tasksArray);
-
-  const task = tasks.find((task) => {
-    return task.id === id;
-  });
-
-  if (!task) {
-    return null;
-  }
-
-  const { isCompleted, isImportant } = task;
 
   return (
     <div className={styles['list-item__buttons']}>
@@ -25,7 +14,7 @@ export const TaskButtons = ({ id }: ITaskButtonProps) => {
         type="button"
         className={`${styles['list-item__button']} ${isCompleted ? styles['list-item__button_active'] : ''}`}
         onClick={() => {
-          dispatch(markTaskIsCompleted(id));
+          dispatch(markTaskAsCompleted({ id, isCompleted: !isCompleted }));
         }}>
         <svg className={styles['list-item__icon']} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
@@ -35,7 +24,7 @@ export const TaskButtons = ({ id }: ITaskButtonProps) => {
         type="button"
         className={`${styles['list-item__button']} ${isImportant ? styles['list-item__button_active'] : ''}`}
         onClick={() => {
-          dispatch(markTaskIsImportant(id));
+          dispatch(markTaskAsImportant({ id, isImportant: !isImportant }));
         }}>
         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 64 512">
           <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V320c0 17.7 14.3 32 32 32s32-14.3 32-32V64zM32 480a40 40 0 1 0 0-80 40 40 0 1 0 0 80z" />
