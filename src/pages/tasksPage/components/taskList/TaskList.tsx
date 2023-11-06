@@ -1,6 +1,6 @@
 import { Task } from '../task/Task';
 import styles from './TaskList.module.scss';
-import { useAppSelector } from 'src/store/types/store.types';
+import { useAppSelector } from 'src/store/hooks/hooks';
 
 export const TaskList = () => {
   const tasks = useAppSelector((state) => state.tasks.tasksArray);

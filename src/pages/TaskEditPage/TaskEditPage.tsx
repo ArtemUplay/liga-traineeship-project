@@ -3,8 +3,8 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 import styles from './TaskEditPage.module.scss';
 import { Checkbox, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
-import { useAppDispatch, useAppSelector } from 'src/store/types/store.types';
 import { addEditedTask, addTask, editTask, postNewTask, resetEditedTask, resetNewTask } from 'src/store/slices';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks/hooks';
 
 export const TaskEditPage = () => {
   const { id } = useParams();
@@ -71,6 +71,7 @@ export const TaskEditPage = () => {
             isCompleted: checkboxTaskIsCompletedValue,
           })
         );
+        // Данный экшен добавлен временно, потому что пока нет запросов на сервер
         dispatch(
           editTask({
             id,

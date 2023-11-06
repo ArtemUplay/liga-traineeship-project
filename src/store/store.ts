@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import logger from 'redux-logger';
 import { addFormTask, editFormTask, tasks } from './slices';
 
 export const store = configureStore({
@@ -7,4 +8,5 @@ export const store = configureStore({
     addFormTask,
     editFormTask,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import styles from './TaskButtons.module.scss';
 import { ITaskButtonProps } from './TaskButtons.types';
 import { Paths } from 'constants/constants';
-import { useAppDispatch } from 'src/store/types/store.types';
 import { deleteTask, markTaskAsCompleted, markTaskAsImportant } from 'src/store/slices';
+import { useAppDispatch } from 'src/store/hooks/hooks';
 
 export const TaskButtons = ({ id, isCompleted, isImportant }: ITaskButtonProps) => {
   const dispatch = useAppDispatch();

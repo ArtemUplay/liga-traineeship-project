@@ -9,7 +9,7 @@ import { ITask } from 'types/appTypes';
 import { tasksArray } from 'src/__mocks__/mocks';
 
 const initialState: IInitialState = {
-  tasksArray: tasksArray,
+  tasksArray: [],
 };
 
 export const tasksSlice = createSlice({
@@ -17,7 +17,9 @@ export const tasksSlice = createSlice({
   initialState,
   reducers: {
     //Данный экшен добавится, когда прикрутим бек
-    // getTasks: (state, action: PayloadAction<ITask[]>) => {},
+    getTasks: (state) => {
+      state.tasksArray = tasksArray;
+    },
 
     //Удалю этот экшен добавится, когда прикрутим бек
     addTask: (state, action: PayloadAction<TNewTask>) => {
@@ -54,5 +56,5 @@ export const tasksSlice = createSlice({
   },
 });
 
-export const { addTask, editTask, markTaskAsCompleted, markTaskAsImportant, deleteTask } = tasksSlice.actions;
+export const { getTasks, addTask, editTask, markTaskAsCompleted, markTaskAsImportant, deleteTask } = tasksSlice.actions;
 export const tasks = tasksSlice.reducer;
