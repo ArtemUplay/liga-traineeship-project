@@ -1,5 +1,5 @@
 export interface ITaskButtonProps {
-  id: string;
+  id: number;
   isCompleted: boolean;
   isImportant: boolean;
 }

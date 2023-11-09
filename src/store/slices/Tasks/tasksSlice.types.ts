@@ -1,17 +1,20 @@
-import { ITask } from 'types/appTypes';
+import { PostTaskResponse, UpdateTaskResponse } from 'api/index';
+import { ITask } from 'types/app';
 
-export type TNewTask = Omit<ITask, 'id' | 'isCompleted'>;
+export type TNewTask = PostTaskResponse;
 
 export interface IInitialState {
   tasksArray: ITask[];
+  isLoading: boolean;
+  error: Error | null;
 }
 
 export interface IMarkTaskAsImportantActionPayload {
-  id: string;
+  id: number;
   isImportant: boolean;
 }
 
 export interface IMarkTaskAsCompletedActionPayload {
-  id: string;
+  id: number;
   isCompleted: boolean;
 }

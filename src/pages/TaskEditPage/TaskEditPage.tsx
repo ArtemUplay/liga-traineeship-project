@@ -3,8 +3,9 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 import styles from './TaskEditPage.module.scss';
 import { Checkbox, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
-import { addEditedTask, addTask, editTask, postNewTask, resetEditedTask, resetNewTask } from 'src/store/slices';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks/hooks';
+import { fetchCreateTask, resetNewTask } from 'src/store/slices/addFormTask';
+import { fetchUpdateEditFormTask } from 'src/store/slices/editFormTask/EditFromTask.thunks';
 
 export const TaskEditPage = () => {
   const { id } = useParams();
@@ -35,7 +36,9 @@ export const TaskEditPage = () => {
   }, []);
 
   const currentTask = tasks.find((task) => {
-    return task.id === id;
+    if (id) {
+      return task.id === +id;
+    }
   });
 
   useEffect(() => {
@@ -51,41 +54,27 @@ export const TaskEditPage = () => {
     evt.preventDefault();
     setSubmitButtonClicked(true);
 
-    if (inputTaskInfoValue && inputTaskInfoValue) {
-      if (!id) {
-        dispatch(
-          postNewTask({ name: inputTaskNameValue, info: inputTaskInfoValue, isImportant: checkboxTaskIsImportantValue })
-        );
-        // Данный экшен добавлен временно, потому что пока нет запросов на сервер
-        dispatch(
-          addTask({ name: inputTaskNameValue, info: inputTaskInfoValue, isImportant: checkboxTaskIsImportantValue })
-        );
-        dispatch(resetNewTask());
-      } else {
-        dispatch(
-          addEditedTask({
-            id,
-            name: inputTaskNameValue,
-            info: inputTaskInfoValue,
-            isImportant: checkboxTaskIsImportantValue,
-            isCompleted: checkboxTaskIsCompletedValue,
-          })
-        );
-        // Данный экшен добавлен временно, потому что пока нет запросов на сервер
-        dispatch(
-          editTask({
-            id,
-            name: inputTaskNameValue,
-            info: inputTaskInfoValue,
-            isImportant: checkboxTaskIsImportantValue,
-            isCompleted: checkboxTaskIsCompletedValue,
-          })
-        );
-        dispatch(resetEditedTask());
-      }
-
-      navigate(Paths.TASK_LIST, { replace: true });
+    if (!id) {
+      dispatch(
+        fetchCreateTask({
+          name: inputTaskNameValue,
+          info: inputTaskInfoValue,
+          isImportant: checkboxTaskIsImportantValue,
+        })
+      );
+      dispatch(resetNewTask());
+    } else {
+      dispatch(
+        fetchUpdateEditFormTask(+id, {
+          name: inputTaskNameValue,
+          info: inputTaskInfoValue,
+          isImportant: checkboxTaskIsImportantValue,
+          isCompleted: checkboxTaskIsCompletedValue,
+        })
+      );
     }
+
+    navigate(Paths.TASK_LIST, { replace: true });
   };
 
   return (
@@ -115,7 +104,12 @@ export const TaskEditPage = () => {
             onChange={onCheckboxTaskIsCompletedChange}
           />
         )}
-        <button type="submit" className={styles.form__button}>
+        <button
+          type="submit"
+          className={`${styles.form__button} ${
+            inputTaskInfoValue === '' && inputTaskInfoValue === '' ? styles.form__button_disabled : ''
+          }`}
+          disabled={inputTaskInfoValue === '' && inputTaskInfoValue === ''}>
           {id ? 'Edit task' : 'Add task'}
         </button>
       </form>

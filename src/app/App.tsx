@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
-import { Paths } from './constants/constants';
-import { NotFound, TaskEditPage, TasksPage } from './pages';
-import { PageContainer } from './components';
+import { NotFound, TaskEditPage, TasksPage } from '../pages';
+import { PageContainer } from '../components';
+import { Paths } from '../constants/constants';
 
 export const App = () => {
   return (

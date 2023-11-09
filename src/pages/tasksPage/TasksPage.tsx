@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { TaskList } from './components/taskList/TaskList';
 import { Paths } from 'constants/constants';
 import { LinkComponent } from 'components/index';
-import { useAppDispatch } from 'src/store/hooks/hooks';
-import { getTasks } from 'src/store/slices';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks/hooks';
+import { fetchTasks } from 'src/store/slices/Tasks';
 
 export const TasksPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getTasks());
+    dispatch(fetchTasks());
   }, []);
 
   return (

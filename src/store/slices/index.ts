@@ -1,3 +1,3 @@
-export * from './TasksSlice/tasksSlice';
-export * from './addFormTaskSlice/AddFormTask';
-export * from './editFormTaskSlice/editFormTaskSlice';
+export * from './Tasks/tasksSlice.slice';
+// export * from './addFormTaskSlice/AddFormTask';
+export * from './editFormTask/editFormTask.slice';

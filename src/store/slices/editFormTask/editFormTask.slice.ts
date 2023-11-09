@@ -1,22 +1,29 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IInitialState } from './editFormTaskSlice.types';
-import { ITask } from 'types/appTypes';
+import { IInitialState } from './editFormTask.types';
+import { ITask } from 'types/app';
 
 const initialState: IInitialState = {
   editedTask: {
-    id: '',
     name: '',
     info: '',
     isImportant: false,
     isCompleted: false,
   },
+  isLoadingEditForm: false,
+  error: null,
 };
 
 const editFormTaskSlice = createSlice({
   name: 'editFormTask',
   initialState,
   reducers: {
-    addEditedTask: (state, action: PayloadAction<ITask>) => {
+    setLoaderEditForm: (state) => {
+      state.isLoadingEditForm = true;
+    },
+    unsetLoaderEditForm: (state) => {
+      state.isLoadingEditForm = false;
+    },
+    editTask: (state, action: PayloadAction<ITask>) => {
       state.editedTask = action.payload;
     },
     resetEditedTask: (state) => {
@@ -25,5 +32,5 @@ const editFormTaskSlice = createSlice({
   },
 });
 
-export const { addEditedTask, resetEditedTask } = editFormTaskSlice.actions;
+export const { setLoaderEditForm, unsetLoaderEditForm, editTask, resetEditedTask } = editFormTaskSlice.actions;
 export const editFormTask = editFormTaskSlice.reducer;

@@ -18,7 +18,13 @@
   color: inherit;
   transition: all 0.3s ease;
 
-  &:hover {
+  &_disabled {
+    color: #fff;
+    background-color: #737381;
+    cursor: default;
+  }
+
+  &:hover:not(&_disabled) {
     color: #fff;
     background-color: #9395d3;
   }
