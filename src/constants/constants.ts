@@ -4,3 +4,10 @@ export enum Paths {
   FORM_EDIT_EDIT_TASK = '/form_edit/:id',
   NOT_FOUND = '*',
 }
+
+export const FILTER = {
+  ALL: 'All',
+  ACTIVE: 'Active',
+  DONE: 'Done',
+  IMPORTANT: 'Important',
+} as const;

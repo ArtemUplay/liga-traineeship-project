@@ -1,23 +1,35 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
-import styles from './TaskEditPage.module.scss';
-import { Checkbox, TextField } from 'components/index';
+import styles from './TaskFormPage.module.scss';
+import { Checkbox, Loader, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks/hooks';
-import { fetchCreateTask, resetNewTask } from 'src/store/slices/addFormTask';
+import { fetchCreateTask, resetNewTask, useAddTaskFormSlice } from 'src/store/slices/addFormTask';
 import { fetchUpdateEditFormTask } from 'src/store/slices/editFormTask/EditFromTask.thunks';
 
-export const TaskEditPage = () => {
+export const TaskFormPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const tasks = useAppSelector((state) => state.tasks.tasksArray);
+  const { isLoading, error } = useAddTaskFormSlice();
 
   const [inputTaskNameValue, setInputTaskNameValue] = useState<string>('');
   const [inputTaskInfoValue, setInputTaskInfoValue] = useState<string>('');
   const [checkboxTaskIsImportantValue, setCheckboxTaskIsImportantValue] = useState<boolean>(false);
   const [checkboxTaskIsCompletedValue, setCheckboxTaskIsCompletedValue] = useState<boolean>(false);
   const [submitButtonClicked, setSubmitButtonClicked] = useState<boolean>(false);
+  const [isLoadingFinished, setIsLoadingFinished] = useState<boolean>(false);
+
+  const navigateAfterLoading = () => {
+    if (!isLoading && isLoadingFinished && !error) {
+      navigate(Paths.TASK_LIST, { replace: true });
+    }
+  };
+
+  useEffect(() => {
+    navigateAfterLoading();
+  }, [isLoading]);
 
   const onInputTaskNameChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setInputTaskNameValue(evt.target.value);
@@ -50,7 +62,7 @@ export const TaskEditPage = () => {
     }
   }, []);
 
-  const submitHandler = (evt: FormEvent) => {
+  const submitHandler = async (evt: FormEvent) => {
     evt.preventDefault();
     setSubmitButtonClicked(true);
 
@@ -74,7 +86,7 @@ export const TaskEditPage = () => {
       );
     }
 
-    navigate(Paths.TASK_LIST, { replace: true });
+    setIsLoadingFinished(true);
   };
 
   return (
@@ -104,14 +116,16 @@ export const TaskEditPage = () => {
             onChange={onCheckboxTaskIsCompletedChange}
           />
         )}
-        <button
-          type="submit"
-          className={`${styles.form__button} ${
-            inputTaskInfoValue === '' && inputTaskInfoValue === '' ? styles.form__button_disabled : ''
-          }`}
-          disabled={inputTaskInfoValue === '' && inputTaskInfoValue === ''}>
-          {id ? 'Edit task' : 'Add task'}
-        </button>
+        <Loader isLoading={isLoading}>
+          <button
+            type="submit"
+            className={`${styles.form__button} ${
+              inputTaskInfoValue === '' && inputTaskInfoValue === '' ? styles.form__button_disabled : ''
+            }`}
+            disabled={inputTaskInfoValue === '' && inputTaskInfoValue === ''}>
+            {error ? `${error.message}` : id ? 'Edit task' : 'Add task'}
+          </button>
+        </Loader>
       </form>
     </>
   );

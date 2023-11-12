@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IInitialState, TNewTask } from './AddFormTask.types';
+import { AxiosError } from 'axios';
+import { IAddTaskInitialState, TNewTask } from './AddFormTask.types';
 
-const initialState: IInitialState = {
+const initialState: IAddTaskInitialState = {
   newTask: {
     name: '',
     info: '',
@@ -15,11 +16,17 @@ const addFormTaskSlice = createSlice({
   name: 'addFormTask',
   initialState,
   reducers: {
-    setLoader: (state) => {
+    setAddTaskFormLoader: (state) => {
       state.isLoading = true;
     },
-    unsetLoader: (state) => {
+    unsetAddTaskFormLoader: (state) => {
       state.isLoading = false;
+    },
+    setAddTaskPageError: (state, action: PayloadAction<AxiosError>) => {
+      state.error = action.payload;
+    },
+    resetAddTaskPageError: (state) => {
+      state.error = null;
     },
     postNewTask: (state, action: PayloadAction<TNewTask>) => {
       state.newTask = action.payload;
@@ -30,5 +37,12 @@ const addFormTaskSlice = createSlice({
   },
 });
 
-export const { setLoader, unsetLoader, postNewTask, resetNewTask } = addFormTaskSlice.actions;
+export const {
+  setAddTaskFormLoader,
+  unsetAddTaskFormLoader,
+  setAddTaskPageError,
+  resetAddTaskPageError,
+  postNewTask,
+  resetNewTask,
+} = addFormTaskSlice.actions;
 export const addFormTask = addFormTaskSlice.reducer;

@@ -1,9 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IInitialState } from './tasksSlice.types';
-import { ITask } from 'types/app';
+import { AxiosError } from 'axios';
+import { ITasksInitialState } from './tasksSlice.types';
+import { ISearchForm, ITask } from 'types/app';
+import { FILTER } from 'constants/constants';
 
-const initialState: IInitialState = {
+const initialState: ITasksInitialState = {
   tasksArray: [],
+  searchForm: {
+    searchValue: '',
+    filterType: FILTER.ALL,
+  },
   isLoading: false,
   error: null,
 };
@@ -12,11 +18,17 @@ export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    setLoader: (state) => {
+    setLoaderTasksPage: (state) => {
       state.isLoading = true;
     },
-    unsetLoader: (state) => {
+    unsetLoaderTasksPage: (state) => {
       state.isLoading = false;
+    },
+    setTaskPageError: (state, action: PayloadAction<AxiosError>) => {
+      state.error = action.payload;
+    },
+    clearTaskPageError: (state) => {
+      state.error = null;
     },
     setTasks: (state, action: PayloadAction<ITask[]>) => {
       state.tasksArray = action.payload.reverse();
@@ -33,8 +45,24 @@ export const tasksSlice = createSlice({
         return task.id !== action.payload;
       });
     },
+    setSearchForm: (state, action: PayloadAction<ISearchForm>) => {
+      state.searchForm = action.payload;
+    },
+    resetSearchForm: (state) => {
+      state.searchForm = initialState.searchForm;
+    },
   },
 });
 
-export const { setLoader, unsetLoader, setTasks, updateTask, deleteTask } = tasksSlice.actions;
+export const {
+  setLoaderTasksPage,
+  unsetLoaderTasksPage,
+  setTaskPageError,
+  clearTaskPageError,
+  setTasks,
+  updateTask,
+  deleteTask,
+  setSearchForm,
+  resetSearchForm,
+} = tasksSlice.actions;
 export const tasks = tasksSlice.reducer;

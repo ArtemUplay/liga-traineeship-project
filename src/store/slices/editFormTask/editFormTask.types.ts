@@ -2,7 +2,7 @@ import { ITask } from 'types/app';
 
 export type TEditedTask = Omit<ITask, 'id'>;
 
-export interface IInitialState {
+export interface IEditTaskInitialState {
   editedTask: TEditedTask;
   isLoadingEditForm: boolean;
   error: Error | null;

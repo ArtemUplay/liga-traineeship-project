@@ -1,49 +1,63 @@
+import { AxiosError } from 'axios';
 import { TAppDispatch } from '../../types/store.types';
-import { deleteTask, setLoader, setTasks, unsetLoader, updateTask } from '..';
+import {
+  deleteTask,
+  setLoaderTasksPage,
+  setSearchForm,
+  setTaskPageError,
+  setTasks,
+  unsetLoaderTasksPage,
+  updateTask,
+} from '..';
 import { TasksAgentIntance } from 'api/agent';
-import { mapToInternalTasks, mapToInternalUpdateTask } from 'src/helpers';
-import { ITask } from 'types/app';
+import { mapToExternalParams, mapToInternalTasks, mapToInternalUpdateTask } from 'src/helpers';
+import { ISearchForm, ITask } from 'types/app';
 import { UpdateTaskRequest } from 'api/model';
 
-export const fetchTasks = () => async (dispatch: TAppDispatch) => {
+export const fetchTasks = (searchParams?: ISearchForm) => async (dispatch: TAppDispatch) => {
   try {
-    dispatch(setLoader());
+    dispatch(setLoaderTasksPage());
 
-    const data = await TasksAgentIntance.getAllTasks();
+    if (searchParams) {
+      dispatch(setSearchForm(searchParams));
+    }
+
+    const externalSearchParams = mapToExternalParams(searchParams);
+    const data = await TasksAgentIntance.getAllTasks(externalSearchParams);
 
     dispatch(setTasks(mapToInternalTasks(data)));
   } catch (error) {
-    console.error(error);
+    dispatch(setTaskPageError(error as AxiosError));
   } finally {
-    dispatch(unsetLoader());
+    dispatch(unsetLoaderTasksPage());
   }
 };
 
 export const fetchUpdateTasksPage =
   (taskId: ITask['id'], newData: UpdateTaskRequest) => async (dispatch: TAppDispatch) => {
     try {
-      dispatch(setLoader());
+      dispatch(setLoaderTasksPage());
 
       const data = await TasksAgentIntance.updateTask(taskId, newData);
 
       dispatch(updateTask(mapToInternalUpdateTask(taskId, data)));
     } catch (error) {
-      console.error(error);
+      dispatch(setTaskPageError(error as AxiosError));
     } finally {
-      dispatch(setLoader());
+      dispatch(unsetLoaderTasksPage());
     }
   };
 
 export const fetchDeleteTask = (taskId: ITask['id']) => async (dispatch: TAppDispatch) => {
   try {
-    dispatch(setLoader());
+    dispatch(setLoaderTasksPage());
 
     await TasksAgentIntance.deleteTask(taskId);
 
     dispatch(deleteTask(taskId));
   } catch (error) {
-    console.error(error);
+    dispatch(setTaskPageError(error as AxiosError));
   } finally {
-    dispatch(unsetLoader());
+    dispatch(unsetLoaderTasksPage());
   }
 };

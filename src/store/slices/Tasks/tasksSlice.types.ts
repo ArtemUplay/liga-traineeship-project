@@ -1,12 +1,11 @@
-import { PostTaskResponse, UpdateTaskResponse } from 'api/index';
-import { ITask } from 'types/app';
+import { AxiosError } from 'axios';
+import { ISearchForm, ITask } from 'types/app';
 
-export type TNewTask = PostTaskResponse;
-
-export interface IInitialState {
+export interface ITasksInitialState {
   tasksArray: ITask[];
+  searchForm: ISearchForm;
   isLoading: boolean;
-  error: Error | null;
+  error: AxiosError | Error | null;
 }
 
 export interface IMarkTaskAsImportantActionPayload {

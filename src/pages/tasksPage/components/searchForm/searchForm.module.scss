@@ -1,0 +1,34 @@
+.form {
+  display: flex;
+  padding: 10px;
+  background-color: #7679df;
+  gap: 18px;
+  align-items: center;
+}
+
+.form__buttons {
+  display: flex;
+  gap: 5px;
+  align-items: stretch;
+}
+
+.form__button {
+  background-color: #fff;
+  border: 0;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #9395d3;
+  }
+}
+
+.form__button_active {
+  background-color: #9395d3;
+}
+
+.form__submit {
+  background-color: #fff;
+  border: 0;
+  padding: 5px 10px;
+}

@@ -1,3 +1,3 @@
 export * from './tasksPage/TasksPage';
-export * from './TaskEditPage/TaskEditPage';
+export * from './TaskFormPage/TaskFormPage';
 export * from './NotFound/NotFound';

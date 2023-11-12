@@ -1,6 +1,23 @@
 import { TPostTaskRequestWithRequiredId } from './mappers.types';
-import { GetAllTasksResponse, GetTaskResponse, PostTaskResponse } from 'api/model';
-import { ITask } from 'types/app';
+import { GetAllTasksQuery, GetAllTasksResponse, GetTaskResponse } from 'api/model';
+import { FILTER } from 'constants/constants';
+import { ISearchForm, ITask } from 'types/app';
+
+export const mapToExternalParams = (params?: ISearchForm): GetAllTasksQuery | undefined => {
+  if (!params) return undefined;
+
+  const { searchValue, filterType } = params;
+  let isCompleted = undefined;
+
+  if (filterType === FILTER.DONE) isCompleted = true;
+  else if (filterType === FILTER.ACTIVE) isCompleted = false;
+
+  return {
+    name_like: searchValue ?? undefined,
+    isImportant: filterType === FILTER.IMPORTANT ? true : undefined,
+    isCompleted,
+  };
+};
 
 export const mapToInternalTasks = (tasks: GetAllTasksResponse): ITask[] => {
   const internalTasks: ITask[] = [];
@@ -11,8 +28,8 @@ export const mapToInternalTasks = (tasks: GetAllTasksResponse): ITask[] => {
         id: task.id,
         name: task.name || 'unknown',
         info: task.info || 'unknown',
-        isImportant: task.isImportant || false,
-        isCompleted: task.isCompleted || false,
+        isImportant: !!task.isImportant || false,
+        isCompleted: !!task.isCompleted || false,
       });
     }
   });
