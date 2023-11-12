@@ -5,6 +5,6 @@ export type TNewTask = Omit<ITask, 'id' | 'isCompleted'>;
 
 export interface IAddTaskInitialState {
   newTask: TNewTask;
-  error: AxiosError | Error | null;
+  error: AxiosError | null;
   isLoading: boolean;
 }

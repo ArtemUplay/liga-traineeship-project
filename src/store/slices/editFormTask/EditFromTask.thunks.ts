@@ -15,8 +15,26 @@ export const fetchUpdateEditFormTask =
 
       dispatch(editTask(mapToInternalUpdateTask(taskId, data)));
     } catch (error) {
-      dispatch(setEditFormError(error as AxiosError));
+      if (error instanceof AxiosError) {
+        dispatch(setEditFormError(error));
+      }
     } finally {
       dispatch(unsetEditFormLoader());
     }
   };
+
+export const fetchTaskById = (taskId: ITask['id']) => async (dispatch: TAppDispatch) => {
+  try {
+    dispatch(setEditFormLoader());
+
+    const data = await TasksAgentIntance.getTask(taskId);
+
+    dispatch(editTask(mapToInternalUpdateTask(taskId, data)));
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      dispatch(setEditFormError(error));
+    }
+  } finally {
+    dispatch(unsetEditFormLoader());
+  }
+};

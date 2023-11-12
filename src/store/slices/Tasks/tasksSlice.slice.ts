@@ -10,6 +10,8 @@ const initialState: ITasksInitialState = {
     searchValue: '',
     filterType: FILTER.ALL,
   },
+  taskInModal: null,
+  isOpenModal: false,
   isLoading: false,
   error: null,
 };
@@ -29,6 +31,14 @@ export const tasksSlice = createSlice({
     },
     clearTaskPageError: (state) => {
       state.error = null;
+    },
+    setOpenModal: (state, action: PayloadAction<ITask>) => {
+      state.isOpenModal = true;
+      state.taskInModal = action.payload;
+    },
+    closeModal: (state) => {
+      state.isOpenModal = false;
+      state.taskInModal = null;
     },
     setTasks: (state, action: PayloadAction<ITask[]>) => {
       state.tasksArray = action.payload.reverse();
@@ -57,6 +67,8 @@ export const tasksSlice = createSlice({
 export const {
   setLoaderTasksPage,
   unsetLoaderTasksPage,
+  setOpenModal,
+  closeModal,
   setTaskPageError,
   clearTaskPageError,
   setTasks,

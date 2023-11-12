@@ -27,7 +27,9 @@ export const fetchTasks = (searchParams?: ISearchForm) => async (dispatch: TAppD
 
     dispatch(setTasks(mapToInternalTasks(data)));
   } catch (error) {
-    dispatch(setTaskPageError(error as AxiosError));
+    if (error instanceof AxiosError) {
+      dispatch(setTaskPageError(error));
+    }
   } finally {
     dispatch(unsetLoaderTasksPage());
   }
@@ -42,7 +44,9 @@ export const fetchUpdateTasksPage =
 
       dispatch(updateTask(mapToInternalUpdateTask(taskId, data)));
     } catch (error) {
-      dispatch(setTaskPageError(error as AxiosError));
+      if (error instanceof AxiosError) {
+        dispatch(setTaskPageError(error));
+      }
     } finally {
       dispatch(unsetLoaderTasksPage());
     }
@@ -56,7 +60,9 @@ export const fetchDeleteTask = (taskId: ITask['id']) => async (dispatch: TAppDis
 
     dispatch(deleteTask(taskId));
   } catch (error) {
-    dispatch(setTaskPageError(error as AxiosError));
+    if (error instanceof AxiosError) {
+      dispatch(setTaskPageError(error));
+    }
   } finally {
     dispatch(unsetLoaderTasksPage());
   }

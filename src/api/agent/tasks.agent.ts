@@ -14,7 +14,7 @@ class TasksAgent extends BasicAgent {
     super(process.env.APP_API as string);
   }
 
-  async getTask(taskId: string): Promise<GetTaskResponse> {
+  async getTask(taskId: number): Promise<GetTaskResponse> {
     const { data } = await this.http.get<GetTaskResponse>(`/tasks/${taskId}`);
 
     return data;

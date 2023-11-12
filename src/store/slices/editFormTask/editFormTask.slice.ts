@@ -31,7 +31,7 @@ const editFormTaskSlice = createSlice({
       state.error = null;
     },
     editTask: (state, action: PayloadAction<ITask>) => {
-      state.editedTask = action.payload;
+      state.editedTask = { ...action.payload };
     },
     resetEditedTask: (state) => {
       state.editedTask = initialState.editedTask;

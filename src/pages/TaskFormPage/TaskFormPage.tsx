@@ -3,16 +3,17 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 import styles from './TaskFormPage.module.scss';
 import { Checkbox, Loader, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks/hooks';
+import { useAppDispatch } from 'src/store/hooks/hooks';
 import { fetchCreateTask, resetNewTask, useAddTaskFormSlice } from 'src/store/slices/addFormTask';
-import { fetchUpdateEditFormTask } from 'src/store/slices/editFormTask/EditFromTask.thunks';
+import { fetchTaskById, fetchUpdateEditFormTask } from 'src/store/slices/editFormTask/EditFromTask.thunks';
+import { useEditFormTaskSlice } from 'src/store/slices/editFormTask/editFormTask.hooks';
 
 export const TaskFormPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const tasks = useAppSelector((state) => state.tasks.tasksArray);
-  const { isLoading, error } = useAddTaskFormSlice();
+  const { isLoadingEditForm, currentTask, errorEditForm } = useEditFormTaskSlice();
+  const { isAddFormLoading, errorAddForm } = useAddTaskFormSlice();
 
   const [inputTaskNameValue, setInputTaskNameValue] = useState<string>('');
   const [inputTaskInfoValue, setInputTaskInfoValue] = useState<string>('');
@@ -22,14 +23,20 @@ export const TaskFormPage = () => {
   const [isLoadingFinished, setIsLoadingFinished] = useState<boolean>(false);
 
   const navigateAfterLoading = () => {
-    if (!isLoading && isLoadingFinished && !error) {
+    if ((!isLoadingEditForm || !isAddFormLoading) && isLoadingFinished && (!errorEditForm || !errorAddForm)) {
       navigate(Paths.TASK_LIST, { replace: true });
     }
   };
 
   useEffect(() => {
     navigateAfterLoading();
-  }, [isLoading]);
+  }, [isLoadingEditForm, isAddFormLoading]);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchTaskById(+id));
+    }
+  }, []);
 
   const onInputTaskNameChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     setInputTaskNameValue(evt.target.value);
@@ -47,12 +54,6 @@ export const TaskFormPage = () => {
     setCheckboxTaskIsCompletedValue(evt.target.checked);
   }, []);
 
-  const currentTask = tasks.find((task) => {
-    if (id) {
-      return task.id === +id;
-    }
-  });
-
   useEffect(() => {
     if (currentTask) {
       setInputTaskNameValue(currentTask.name);
@@ -60,7 +61,7 @@ export const TaskFormPage = () => {
       setCheckboxTaskIsImportantValue(currentTask.isImportant);
       setCheckboxTaskIsCompletedValue(currentTask.isCompleted);
     }
-  }, []);
+  }, [currentTask]);
 
   const submitHandler = async (evt: FormEvent) => {
     evt.preventDefault();
@@ -116,14 +117,18 @@ export const TaskFormPage = () => {
             onChange={onCheckboxTaskIsCompletedChange}
           />
         )}
-        <Loader isLoading={isLoading}>
+        <Loader isLoading={isLoadingEditForm || isAddFormLoading}>
           <button
             type="submit"
             className={`${styles.form__button} ${
               inputTaskInfoValue === '' && inputTaskInfoValue === '' ? styles.form__button_disabled : ''
             }`}
             disabled={inputTaskInfoValue === '' && inputTaskInfoValue === ''}>
-            {error ? `${error.message}` : id ? 'Edit task' : 'Add task'}
+            {errorEditForm || errorAddForm
+              ? `${errorEditForm?.message || errorAddForm?.message}`
+              : id
+              ? 'Edit task'
+              : 'Add task'}
           </button>
         </Loader>
       </form>

@@ -1,11 +1,5 @@
 import { AxiosError } from 'axios';
-import {
-  postNewTask,
-  resetAddTaskPageError,
-  setAddTaskFormLoader,
-  setAddTaskPageError,
-  unsetAddTaskFormLoader,
-} from './AddFormTask.slice';
+import { postNewTask, setAddTaskFormLoader, setAddTaskPageError, unsetAddTaskFormLoader } from './AddFormTask.slice';
 import { TasksAgentIntance } from 'api/agent';
 import { PostTaskRequest } from 'api/model';
 import { TAppDispatch } from 'src/store/types/store.types';
@@ -21,7 +15,9 @@ export const fetchCreateTask = (taskData: PostTaskRequest) => async (dispatch: T
       dispatch(postNewTask(mapToInternalPostTask({ id: data.id, ...data })));
     }
   } catch (error) {
-    dispatch(setAddTaskPageError(error as AxiosError));
+    if (error instanceof AxiosError) {
+      dispatch(setAddTaskPageError(error));
+    }
   } finally {
     dispatch(unsetAddTaskFormLoader());
   }
