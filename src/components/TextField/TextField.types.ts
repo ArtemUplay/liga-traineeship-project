@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute } from 'react';
 
 export interface TextFieldProps {
   label: string;
@@ -6,6 +6,8 @@ export interface TextFieldProps {
   inputType?: HTMLInputTypeAttribute;
   containerClassName?: string;
   value?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange: (value: string) => void;
   errorText?: string;
+  isInvalid: string;
+  disabled: boolean;
 }

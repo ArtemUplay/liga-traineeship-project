@@ -23,16 +23,18 @@ export const mapToInternalTasks = (tasks: GetAllTasksResponse): ITask[] => {
   const internalTasks: ITask[] = [];
 
   tasks.forEach((task) => {
-    const name = typeof task.name === 'string' && task.name.trim() !== '' ? task.name.trim() : 'unknown';
-    const info = typeof task.info === 'string' && task.info.trim() !== '' ? task.info.trim() : 'unknown';
-
     if (task.id) {
+      const name = typeof task.name === 'string' && task.name.trim() !== '' ? task.name.trim() : 'unknown';
+      const info = typeof task.info === 'string' && task.info.trim() !== '' ? task.info.trim() : 'unknown';
+      const isCompleted = !!task.isCompleted || false;
+      const isImportant = isCompleted ? false : !!task.isImportant || false;
+
       internalTasks.push({
         id: task.id,
         name,
         info,
-        isImportant: !!task.isImportant || false,
-        isCompleted: !!task.isCompleted || false,
+        isImportant,
+        isCompleted,
       });
     }
   });

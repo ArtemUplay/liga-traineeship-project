@@ -21,3 +21,16 @@ export interface ISearchForm {
   searchValue: string;
   filterType: FiltersType;
 }
+
+export interface IEditTaskForm {
+  name: string;
+  info: string;
+  isImportant: boolean;
+  isCompleted: boolean;
+}
+
+export interface IAddTaskForm {
+  name: string;
+  info: string;
+  isImportant: boolean;
+}

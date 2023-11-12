@@ -16,3 +16,7 @@
   border: none;
   background-color: inherit;
 }
+
+.is-invalid {
+  border-color: red;
+}
