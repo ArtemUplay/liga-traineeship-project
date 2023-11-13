@@ -22,7 +22,7 @@ const addFormTaskSlice = createSlice({
     unsetAddTaskFormLoader: (state) => {
       state.isLoading = false;
     },
-    setAddTaskPageError: (state, action: PayloadAction<AxiosError>) => {
+    setAddTaskPageError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
     resetAddTaskPageError: (state) => {

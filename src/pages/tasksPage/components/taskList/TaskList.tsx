@@ -8,7 +8,7 @@ export const TaskList = () => {
   return (
     <ul className={styles['task-list']}>
       {error ? (
-        <p className={styles['task-list__text']}>{error.message}</p>
+        <p className={styles['task-list__text']}>{error}</p>
       ) : (
         <Loader isLoading={isLoading}>
           {tasks.length > 0 ? (

@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
 import { IEditTaskInitialState } from './editFormTask.types';
 import { ITask } from 'types/app';
 
@@ -24,7 +23,7 @@ const editFormTaskSlice = createSlice({
     unsetEditFormLoader: (state) => {
       state.isLoadingEditForm = false;
     },
-    setEditFormError: (state, action: PayloadAction<AxiosError>) => {
+    setEditFormError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
     resetEditFormError: (state) => {

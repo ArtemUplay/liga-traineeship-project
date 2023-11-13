@@ -1,4 +1,4 @@
-import { FormEvent, memo, useCallback, useState } from 'react';
+import { FormEvent, memo, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FilterButtons } from '../filterButtons/filterButtons';
@@ -20,8 +20,6 @@ const SearchFormComponent = () => {
     filter: FILTER.ALL,
   };
 
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
   const { handleSubmit, control, setValue } = useForm<ISearchFormValidation>({
     defaultValues: defaultValues,
     resolver: yupResolver(validationSchema),
@@ -36,15 +34,6 @@ const SearchFormComponent = () => {
   }, []);
 
   const onResetHandler = () => {
-    if (isSubmitted) {
-      dispatch(
-        fetchTasks({
-          searchValue: '',
-          filterType: FILTER.ALL,
-        })
-      );
-    }
-
     setValue('searchValue', '');
   };
 
@@ -58,8 +47,6 @@ const SearchFormComponent = () => {
         })
       );
     })();
-
-    setIsSubmitted(true);
   };
 
   return (

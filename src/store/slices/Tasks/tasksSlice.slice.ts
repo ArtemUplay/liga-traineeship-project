@@ -26,7 +26,7 @@ export const tasksSlice = createSlice({
     unsetLoaderTasksPage: (state) => {
       state.isLoading = false;
     },
-    setTaskPageError: (state, action: PayloadAction<AxiosError>) => {
+    setTaskPageError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
     clearTaskPageError: (state) => {

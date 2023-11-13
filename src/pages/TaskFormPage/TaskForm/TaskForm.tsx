@@ -7,7 +7,6 @@ import { ITaskFormValidation } from './TaskForm.types';
 import { validationSchema } from './TaskForm.schema';
 import { Checkbox, Loader, TextField } from 'components/index';
 import { Paths } from 'constants/constants';
-import { useAppDispatch } from 'src/store/hooks/hooks';
 import {
   fetchCreateTask,
   resetNewTask,
@@ -18,6 +17,7 @@ import {
   resetEditedTask,
 } from 'src/store/slices';
 import { IAddTaskForm, IEditTaskForm } from 'types/app';
+import { useAppDispatch } from 'src/store';
 
 export const TaskForm = () => {
   const { id } = useParams();
@@ -26,11 +26,15 @@ export const TaskForm = () => {
   const { isLoadingEditForm, currentTask, errorEditForm } = useEditFormTaskSlice();
   const { isAddFormLoading, errorAddForm } = useAddTaskFormSlice();
 
-  const [submitButtonClicked, setSubmitButtonClicked] = useState<boolean>(false);
   const [isLoadingFinished, setIsLoadingFinished] = useState<boolean>(false);
 
   const navigateAfterLoading = () => {
-    if ((!isLoadingEditForm || !isAddFormLoading) && isLoadingFinished && (!errorEditForm || !errorAddForm)) {
+    if (
+      (!isLoadingEditForm || !isAddFormLoading) &&
+      isLoadingFinished &&
+      errorEditForm === null &&
+      errorAddForm === null
+    ) {
       navigate(Paths.TASK_LIST, { replace: true });
     }
   };
@@ -64,6 +68,11 @@ export const TaskForm = () => {
   }, []);
 
   const isCompleted = watch('isCompleted');
+  const name = watch('name');
+  const info = watch('info');
+  const isInputFilled = !(name && info);
+  const buttonDisabled =
+    isInputFilled || errorEditForm !== null || errorAddForm !== null || isAddFormLoading || isLoadingEditForm;
 
   useEffect(() => {
     navigateAfterLoading();
@@ -92,7 +101,6 @@ export const TaskForm = () => {
 
   const submitHandler = async (evt: FormEvent) => {
     evt.preventDefault();
-    setSubmitButtonClicked(true);
 
     if (!id) {
       await handleSubmit(async (data: IAddTaskForm) => {
@@ -103,8 +111,6 @@ export const TaskForm = () => {
             isImportant: data.isImportant,
           })
         );
-
-        dispatch(resetNewTask());
       })();
     } else {
       await handleSubmit((data: IEditTaskForm) => {
@@ -116,7 +122,6 @@ export const TaskForm = () => {
             isCompleted: data.isCompleted,
           })
         );
-        dispatch(resetEditedTask());
       })();
     }
 
@@ -191,12 +196,11 @@ export const TaskForm = () => {
         />
       )}
       <Loader isLoading={isLoadingEditForm || isAddFormLoading}>
-        <button type="submit" className={`${styles.form__button} `}>
-          {errorEditForm || errorAddForm
-            ? `${errorEditForm?.message || errorAddForm?.message}`
-            : id
-            ? 'Edit task'
-            : 'Add task'}
+        <button
+          type="submit"
+          className={`${styles.form__button} ${buttonDisabled ? styles.form__button_disabled : ''}`}
+          disabled={buttonDisabled}>
+          {errorEditForm || errorAddForm ? `${errorEditForm || errorAddForm}` : id ? 'Edit task' : 'Add task'}
         </button>
       </Loader>
     </form>

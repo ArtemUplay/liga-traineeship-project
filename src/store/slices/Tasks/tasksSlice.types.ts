@@ -7,5 +7,5 @@ export interface ITasksInitialState {
   taskInModal: ITask | null;
   isLoading: boolean;
   isOpenModal: boolean;
-  error: AxiosError | Error | null;
+  error: string | null;
 }

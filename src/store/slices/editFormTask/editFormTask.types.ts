@@ -6,5 +6,5 @@ export type TEditedTask = Omit<ITask, 'id'>;
 export interface IEditTaskInitialState {
   editedTask: TEditedTask;
   isLoadingEditForm: boolean;
-  error: AxiosError | null;
+  error: string | null;
 }

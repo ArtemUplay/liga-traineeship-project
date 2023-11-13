@@ -1,9 +1,13 @@
-import { AxiosError } from 'axios';
-import { editTask, setEditFormError, setEditFormLoader, unsetEditFormLoader } from './editFormTask.slice';
-import { TasksAgentIntance } from 'api/agent';
-import { UpdateTaskRequest } from 'api/model';
+import {
+  editTask,
+  resetEditedTask,
+  setEditFormError,
+  setEditFormLoader,
+  unsetEditFormLoader,
+  TAppDispatch,
+} from 'src/store';
+import { TasksAgentIntance, UpdateTaskRequest } from 'src/api';
 import { mapToInternalUpdateTask } from 'src/helpers';
-import { TAppDispatch } from 'src/store/types/store.types';
 import { ITask } from 'types/app';
 
 export const fetchUpdateEditFormTask =
@@ -14,10 +18,9 @@ export const fetchUpdateEditFormTask =
       const data = await TasksAgentIntance.updateTask(taskId, newData);
 
       dispatch(editTask(mapToInternalUpdateTask(taskId, data)));
+      dispatch(resetEditedTask());
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch(setEditFormError(error));
-      }
+      dispatch(setEditFormError('Something went wrong. Please, update page'));
     } finally {
       dispatch(unsetEditFormLoader());
     }
@@ -31,9 +34,7 @@ export const fetchTaskById = (taskId: ITask['id']) => async (dispatch: TAppDispa
 
     dispatch(editTask(mapToInternalUpdateTask(taskId, data)));
   } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch(setEditFormError(error));
-    }
+    dispatch(setEditFormError('Something went wrong. Please, update page'));
   } finally {
     dispatch(unsetEditFormLoader());
   }

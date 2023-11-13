@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { TAppDispatch } from '../../types/store.types';
 import {
   deleteTask,
@@ -27,9 +26,7 @@ export const fetchTasks = (searchParams?: ISearchForm) => async (dispatch: TAppD
 
     dispatch(setTasks(mapToInternalTasks(data)));
   } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch(setTaskPageError(error));
-    }
+    dispatch(setTaskPageError('Something went wrong. Please, update page'));
   } finally {
     dispatch(unsetLoaderTasksPage());
   }
@@ -44,9 +41,7 @@ export const fetchUpdateTasksPage =
 
       dispatch(updateTask(mapToInternalUpdateTask(taskId, data)));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch(setTaskPageError(error));
-      }
+      dispatch(setTaskPageError('Something went wrong. Please, update page'));
     } finally {
       dispatch(unsetLoaderTasksPage());
     }
@@ -60,9 +55,7 @@ export const fetchDeleteTask = (taskId: ITask['id']) => async (dispatch: TAppDis
 
     dispatch(deleteTask(taskId));
   } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch(setTaskPageError(error));
-    }
+    dispatch(setTaskPageError('Something went wrong. Please, update page'));
   } finally {
     dispatch(unsetLoaderTasksPage());
   }
