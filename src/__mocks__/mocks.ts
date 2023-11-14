@@ -1,0 +1,88 @@
+import { ITask } from 'types/app';
+
+export const tasksArray: ITask[] = [
+  {
+    id: 1,
+    name: 'Task 1',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: false,
+  },
+  {
+    id: 2,
+    name: 'Task 2',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: true,
+  },
+  {
+    id: 3,
+    name: 'Task 3',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: true,
+  },
+  {
+    id: 4,
+    name: 'Task 4',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: false,
+  },
+  {
+    id: 5,
+    name: 'Task 5',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: false,
+  },
+  {
+    id: 6,
+    name: 'Task 6',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: true,
+  },
+  {
+    id: 7,
+    name: 'Task 7',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: true,
+  },
+  {
+    id: 8,
+    name: 'Task 8',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: false,
+  },
+  {
+    id: 9,
+    name: 'Task 9',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: false,
+  },
+  {
+    id: 10,
+    name: 'Task 10',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: true,
+  },
+  {
+    id: 11,
+    name: 'Task 11',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: true,
+    isCompleted: true,
+  },
+  {
+    id: 12,
+    name: 'Task 12',
+    info: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, aliquam.',
+    isImportant: false,
+    isCompleted: false,
+  },
+];
