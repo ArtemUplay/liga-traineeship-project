@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-vars */
-export interface SearchInputProps {
-  isInvalid: string;
-  disabled: boolean;
-  onChange: (text: string) => void;
-  value: string;
-  onReset?: () => void;
-}
+import { TextFieldProps } from '@mui/material';
+
+type ExcludeVariant = Omit<TextFieldProps, 'variant'>;
+
+export type ISearchInputProps = ExcludeVariant;

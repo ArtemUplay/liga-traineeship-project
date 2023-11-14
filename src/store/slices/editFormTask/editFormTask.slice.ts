@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IEditTaskInitialState } from './editFormTask.types';
+import { IEditTaskInitialState } from 'src/store/slices/editFormTask';
 import { ITask } from 'types/app';
 
 const initialState: IEditTaskInitialState = {

@@ -1,11 +1,17 @@
-import { memo } from 'react';
-import { TaskButtons } from '../taskButtons/TaskButtons';
-import styles from './Task.module.scss';
-import { ITaskProps } from './Task.types';
-import { setOpenModal } from 'src/store/slices';
-import { useAppDispatch } from 'src/store';
+import { memo, useState } from 'react';
+import { Box } from '@mui/system';
+import {
+  TaskButtons,
+  StyledListItem,
+  ITaskProps,
+  StyledListItemName,
+  StyledListItemInfo,
+} from 'src/pages/tasksPage/components';
+import { setOpenModal, useAppDispatch } from 'src/store';
 
 const TaskComponent = ({ id, name, info, isImportant, isCompleted }: ITaskProps) => {
+  const [hovered, setHovered] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
 
   const onTaskClick = (evt: React.MouseEvent<HTMLLIElement>) => {
@@ -14,21 +20,25 @@ const TaskComponent = ({ id, name, info, isImportant, isCompleted }: ITaskProps)
   };
 
   return (
-    <>
-      <li
-        onClick={onTaskClick}
-        className={`${styles['list-item']} ${isCompleted ? styles['list-item_completed'] : ''} `}>
-        <div className={styles['task-list__info-wrapper']}>
-          <h3 className={`${styles['list-item__name']} ${isCompleted ? styles['list-item__name_completed'] : ''}`}>
-            {name}
-          </h3>
-          <p className={`${styles['list-item__info']} ${isCompleted ? styles['list-item__info_completed'] : ''}`}>
-            {info}
-          </p>
-        </div>
-        <TaskButtons id={id} isImportant={isImportant} isCompleted={isCompleted} />
-      </li>
-    </>
+    <StyledListItem
+      completed={String(isCompleted)}
+      onClick={onTaskClick}
+      onMouseEnter={() => {
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}>
+      <Box>
+        <StyledListItemName completed={String(isCompleted)} hovered={String(hovered)}>
+          {name}
+        </StyledListItemName>
+        <StyledListItemInfo completed={String(isCompleted)} hovered={String(hovered)}>
+          {info}
+        </StyledListItemInfo>
+      </Box>
+      <TaskButtons id={id} isImportant={isImportant} isCompleted={isCompleted} />
+    </StyledListItem>
   );
 };
 

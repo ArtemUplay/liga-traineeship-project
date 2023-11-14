@@ -1,7 +1,5 @@
-import React from 'react';
-import './PageContainer.css';
-import { PageContainerProps } from './PageContainer.types';
+import { PageContainerProps, StyledPageContainerBox } from 'src/components/PageContainer';
 
-export function PageContainer({ children, className = '' }: PageContainerProps) {
-  return <div className={`container ${className}`}>{children}</div>;
-}
+export const PageContainer = ({ children }: PageContainerProps) => {
+  return <StyledPageContainerBox>{children}</StyledPageContainerBox>;
+};

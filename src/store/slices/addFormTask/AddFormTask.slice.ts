@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
-import { IAddTaskInitialState, TNewTask } from './AddFormTask.types';
+import { IAddTaskInitialState, TNewTask } from 'src/store/slices/addFormTask';
 
 const initialState: IAddTaskInitialState = {
   newTask: {

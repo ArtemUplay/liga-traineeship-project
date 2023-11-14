@@ -1,0 +1,9 @@
+export const SOFT_PURPLE_COLOR = '#9395d3';
+export const LIGTH_PURPLE_COLOR = 'rgba(180, 184, 238, 0.5)';
+export const SOFT_BLUE_COLOR = '#7679df';
+export const WHITE_COLOR = '#fff';
+export const BLACK_COLOR = '#000';
+export const DARK_PURPLE_COLOR = '#8384a7';
+export const GRAY_COLOR = 'rgba(139, 139, 139, 0.5)';
+export const LIGHT_GRAY_COLOR = '#ebe6e6';
+export const SEMI_TRANSPARENT_BLACK = 'rgba(0, 0, 0, 0.7)';

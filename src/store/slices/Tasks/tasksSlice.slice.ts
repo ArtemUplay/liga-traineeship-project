@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AxiosError } from 'axios';
-import { ITasksInitialState } from './tasksSlice.types';
+import { ITasksInitialState } from 'src/store/slices/Tasks';
 import { ISearchForm, ITask } from 'types/app';
 import { FILTER } from 'constants/constants';
 
@@ -42,6 +41,16 @@ export const tasksSlice = createSlice({
     },
     setTasks: (state, action: PayloadAction<ITask[]>) => {
       state.tasksArray = action.payload.reverse();
+
+      if (state.searchForm.filterType === FILTER.IMPORTANT) {
+        state.tasksArray = action.payload.map((task) => {
+          return {
+            ...task,
+            isImportant: true,
+            isCompleted: false,
+          };
+        });
+      }
     },
     updateTask: (state, action: PayloadAction<ITask>) => {
       const taskIndex = state.tasksArray.findIndex((task) => {

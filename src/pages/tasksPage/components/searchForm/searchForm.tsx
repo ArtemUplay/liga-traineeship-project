@@ -1,15 +1,19 @@
-import { FormEvent, memo, useCallback } from 'react';
+import { ChangeEventHandler, FormEvent, memo, useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FilterButtons } from '../filterButtons/filterButtons';
-import styles from './searchForm.module.scss';
-import { ISearchFormValidation } from './searchForm.types';
-import { validationSchema } from './searchForm.schema';
-import { SearchInput } from 'components/SearchInput';
+import { IconButton } from '@mui/material';
+import { Clear } from '@mui/icons-material';
+import {
+  FormSearch,
+  SubmitButton,
+  validationSchema,
+  ISearchFormValidation,
+} from 'src/pages/tasksPage/components/searchForm';
+import { FilterButtons } from 'src/pages/tasksPage/components/filterButtons';
 import { FILTER } from 'constants/constants';
 import { FiltersType } from 'types/app';
-import { useAppDispatch } from 'src/store';
-import { fetchTasks, useTasksSlice } from 'src/store/slices/Tasks';
+import { useAppDispatch, fetchTasks, useTasksSlice } from 'src/store';
+import { SearchInput } from 'src/components/SearchInput';
 
 const SearchFormComponent = () => {
   const { isLoading } = useTasksSlice();
@@ -25,8 +29,8 @@ const SearchFormComponent = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSearchChange = useCallback((value: string) => {
-    setValue('searchValue', value);
+  const onSearchChange: ChangeEventHandler<HTMLInputElement> = useCallback((evt) => {
+    setValue('searchValue', evt.target.value);
   }, []);
 
   const onFilterChange = useCallback((filter: FiltersType) => {
@@ -50,42 +54,35 @@ const SearchFormComponent = () => {
   };
 
   return (
-    <form className={styles.form} onSubmit={submitHandler}>
+    <FormSearch component={'form'} onSubmit={submitHandler}>
       <Controller
         control={control}
         name="searchValue"
         render={({ field, fieldState: { error } }) => (
-          <div>
-            <SearchInput
-              disabled={isLoading}
-              value={field.value}
-              onChange={onSearchChange}
-              onReset={onResetHandler}
-              isInvalid={error?.message ? 'is-invalid' : ''}
-            />
-            <div>{error?.message}</div>
-          </div>
+          <SearchInput
+            error={!!error?.message}
+            disabled={isLoading}
+            value={field.value}
+            onChange={onSearchChange}
+            onReset={onResetHandler}
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => onResetHandler()}>
+                  <Clear />
+                </IconButton>
+              ),
+            }}
+            helperText={error?.message}
+          />
         )}
       />
       <Controller
         control={control}
         name="filter"
-        render={({ field, fieldState: { error } }) => (
-          <div>
-            <FilterButtons
-              disabled={isLoading}
-              tasksType={field.value}
-              onChange={onFilterChange}
-              isInvalid={error?.message ? 'is-invalid' : ''}
-            />
-            <div>{error?.message}</div>
-          </div>
-        )}
+        render={({ field }) => <FilterButtons disabled={isLoading} tasksType={field.value} onChange={onFilterChange} />}
       />
-      <button className={styles.form__button} type="submit">
-        Find
-      </button>
-    </form>
+      <SubmitButton type="submit">Find</SubmitButton>
+    </FormSearch>
   );
 };
 

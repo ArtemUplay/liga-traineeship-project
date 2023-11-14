@@ -4,5 +4,8 @@ export interface IFilterButtonsProps {
   disabled: boolean;
   tasksType: FiltersType;
   onChange: (tasksType: FiltersType) => void;
-  isInvalid: string;
+}
+
+export interface IFilterButtonProps {
+  active: string;
 }

@@ -1,4 +1,3 @@
-import { TAppDispatch } from '../../types/store.types';
 import {
   deleteTask,
   setLoaderTasksPage,
@@ -7,7 +6,8 @@ import {
   setTasks,
   unsetLoaderTasksPage,
   updateTask,
-} from '..';
+} from 'src/store/slices/Tasks';
+import { TAppDispatch } from 'src/store/types';
 import { TasksAgentIntance } from 'api/agent';
 import { mapToExternalParams, mapToInternalTasks, mapToInternalUpdateTask } from 'src/helpers';
 import { ISearchForm, ITask } from 'types/app';

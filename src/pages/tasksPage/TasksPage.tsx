@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
-import { SearchForm, TaskList } from './components';
-import { Paths } from 'constants/constants';
-import { LinkComponent, Modal } from 'components/index';
+import { useNavigate } from 'react-router-dom';
+import { SearchForm, TaskList } from 'src/pages/tasksPage/components';
+import { Modal, PageButton } from 'components/index';
 import { useAppDispatch, fetchTasks, useTasksSlice } from 'src/store';
+import { Paths } from 'constants/constants';
 
 export const TasksPage = () => {
   const dispatch = useAppDispatch();
   const { isOpenModal } = useTasksSlice();
+
+  const navigate = useNavigate();
+
+  const onNavigateButtonClick = () => {
+    navigate(Paths.FORM_EDIT_ADD_TASK);
+  };
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -16,7 +23,9 @@ export const TasksPage = () => {
     <>
       <SearchForm />
       <TaskList />
-      <LinkComponent path={Paths.FORM_EDIT_ADD_TASK} text="Add task" />
+      <PageButton type="button" onClick={onNavigateButtonClick}>
+        Add Task
+      </PageButton>
       {isOpenModal && <Modal />}
     </>
   );

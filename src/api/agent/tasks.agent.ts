@@ -1,5 +1,5 @@
-import { BasicAgent } from './basic.agent';
 import {
+  BasicAgent,
   GetAllTasksQuery,
   GetAllTasksResponse,
   GetTaskResponse,
@@ -7,7 +7,7 @@ import {
   PostTaskResponse,
   UpdateTaskRequest,
   UpdateTaskResponse,
-} from 'api/model/tasks.model';
+} from 'src/api';
 
 class TasksAgent extends BasicAgent {
   constructor() {

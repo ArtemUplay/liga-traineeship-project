@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { ISearchForm, ITask } from 'types/app';
 
 export interface ITasksInitialState {

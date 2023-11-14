@@ -1,23 +1,20 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import styles from './TaskForm.module.scss';
-import { ITaskFormValidation } from './TaskForm.types';
-import { validationSchema } from './TaskForm.schema';
-import { Checkbox, Loader, TextField } from 'components/index';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { validationSchema, ITaskFormValidation, FormSearch } from 'src/pages/TaskFormPage/TaskForm';
+import { Loader, PageButton } from 'src/components';
 import { Paths } from 'constants/constants';
 import {
   fetchCreateTask,
-  resetNewTask,
   useAddTaskFormSlice,
   fetchTaskById,
   fetchUpdateEditFormTask,
   useEditFormTaskSlice,
-  resetEditedTask,
-} from 'src/store/slices';
+  useAppDispatch,
+} from 'src/store';
 import { IAddTaskForm, IEditTaskForm } from 'types/app';
-import { useAppDispatch } from 'src/store';
 
 export const TaskForm = () => {
   const { id } = useParams();
@@ -51,20 +48,20 @@ export const TaskForm = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onTaskInputNameChange = useCallback((value: string) => {
-    setValue('name', value);
+  const onTaskInputNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue('name', event.target.value);
   }, []);
 
-  const onTaskInputInfoChange = useCallback((value: string) => {
-    setValue('info', value);
+  const onTaskInputInfoChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue('info', event.target.value);
   }, []);
 
-  const onTaskIsImportantCheckboxChange = useCallback((value: boolean) => {
-    setValue('isImportant', value);
+  const onTaskIsImportantCheckboxChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue('isImportant', event.target.checked);
   }, []);
 
-  const onTaskIsCompletedCheckboxChange = useCallback((value: boolean) => {
-    setValue('isCompleted', value);
+  const onTaskIsCompletedCheckboxChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue('isCompleted', event.target.checked);
   }, []);
 
   const isCompleted = watch('isCompleted');
@@ -129,19 +126,19 @@ export const TaskForm = () => {
   };
 
   return (
-    <form className={styles.form} onSubmit={submitHandler}>
+    <FormSearch component={'form'} onSubmit={submitHandler}>
       <Controller
         control={control}
         name="name"
         render={({ field, fieldState: { error } }) => (
           <TextField
             label="Task name"
+            error={!!error}
             value={field.value}
             onChange={onTaskInputNameChange}
-            errorText={error?.message}
             placeholder="Clean room"
-            isInvalid={error?.message ? 'is-invalid' : ''}
             disabled={isLoadingEditForm || isAddFormLoading}
+            helperText={error?.message}
           />
         )}
       />
@@ -152,12 +149,12 @@ export const TaskForm = () => {
         render={({ field, fieldState: { error } }) => (
           <TextField
             label="Task info"
+            error={!!error}
             value={field.value}
             onChange={onTaskInputInfoChange}
-            errorText={error?.message}
             placeholder="Clean my room"
-            isInvalid={error?.message ? 'is-invalid' : ''}
             disabled={isLoadingEditForm || isAddFormLoading}
+            helperText={error?.message}
           />
         )}
       />
@@ -165,16 +162,17 @@ export const TaskForm = () => {
       <Controller
         control={control}
         name="isImportant"
-        render={({ field, fieldState: { error } }) => (
-          <div>
-            <Checkbox
-              disabled={isLoadingEditForm || isAddFormLoading || watch('isCompleted')}
-              label="isImportant"
-              checked={field.value}
-              onChange={onTaskIsImportantCheckboxChange}
-            />
-            <div>{error?.message}</div>
-          </div>
+        render={({ field }) => (
+          <FormControlLabel
+            control={
+              <Checkbox
+                disabled={isLoadingEditForm || isAddFormLoading || watch('isCompleted')}
+                checked={field.value}
+                onChange={onTaskIsImportantCheckboxChange}
+              />
+            }
+            label="Is important"
+          />
         )}
       />
 
@@ -182,27 +180,25 @@ export const TaskForm = () => {
         <Controller
           control={control}
           name="isCompleted"
-          render={({ field, fieldState: { error } }) => (
-            <div>
-              <Checkbox
-                disabled={isLoadingEditForm || isAddFormLoading}
-                label="isCompleted"
-                checked={field.value}
-                onChange={onTaskIsCompletedCheckboxChange}
-              />
-              <div>{error?.message}</div>
-            </div>
+          render={({ field }) => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  disabled={isLoadingEditForm || isAddFormLoading}
+                  checked={field.value}
+                  onChange={onTaskIsCompletedCheckboxChange}
+                />
+              }
+              label="Is completed"
+            />
           )}
         />
       )}
       <Loader isLoading={isLoadingEditForm || isAddFormLoading}>
-        <button
-          type="submit"
-          className={`${styles.form__button} ${buttonDisabled ? styles.form__button_disabled : ''}`}
-          disabled={buttonDisabled}>
+        <PageButton type="submit" disabled={buttonDisabled}>
           {errorEditForm || errorAddForm ? `${errorEditForm || errorAddForm}` : id ? 'Edit task' : 'Add task'}
-        </button>
+        </PageButton>
       </Loader>
-    </form>
+    </FormSearch>
   );
 };

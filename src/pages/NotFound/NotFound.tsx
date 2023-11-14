@@ -1,3 +1,5 @@
+import { Typography } from '@mui/material';
+
 export const NotFound = () => {
-  return <h2>This page doesn&apos;t exist</h2>;
+  return <Typography variant="h3">This page doesn&apos;t exist</Typography>;
 };

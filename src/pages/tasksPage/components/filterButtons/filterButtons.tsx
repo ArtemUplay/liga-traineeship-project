@@ -1,37 +1,28 @@
 import { memo } from 'react';
-import { IFilterButtonsProps } from './filterButtons.types';
-import styles from './filterButtons.module.scss';
+import { FilterButton, StyledButtonGroup, IFilterButtonsProps } from 'src/pages/tasksPage/components/filterButtons';
 import { FILTER } from 'constants/constants';
 import { FiltersType } from 'types/app';
 
-const FilterButtonsComponent = ({ onChange, tasksType, disabled, isInvalid }: IFilterButtonsProps) => {
+const FilterButtonsComponent = ({ onChange, tasksType, disabled }: IFilterButtonsProps) => {
   const onFilterChange = (evt: React.MouseEvent<HTMLDivElement> & { target: HTMLButtonElement }) => {
     if (!disabled) onChange(evt.target.textContent as FiltersType);
   };
 
   return (
-    <div className={`${styles.form__buttons} ${isInvalid}`} onClick={onFilterChange}>
-      <button
-        className={`${styles.form__button} ${tasksType === FILTER.ALL ? styles.form__button_active : ''}`}
-        type="button">
+    <StyledButtonGroup onClick={onFilterChange}>
+      <FilterButton active={String(tasksType === FILTER.ALL)} type="button">
         {FILTER.ALL}
-      </button>
-      <button
-        className={`${styles.form__button} ${tasksType === FILTER.ACTIVE ? styles.form__button_active : ''}`}
-        type="button">
+      </FilterButton>
+      <FilterButton active={String(tasksType === FILTER.ACTIVE)} type="button">
         {FILTER.ACTIVE}
-      </button>
-      <button
-        className={`${styles.form__button} ${tasksType === FILTER.DONE ? styles.form__button_active : ''}`}
-        type="button">
+      </FilterButton>
+      <FilterButton active={String(tasksType === FILTER.DONE)} type="button">
         {FILTER.DONE}
-      </button>
-      <button
-        className={`${styles.form__button} ${tasksType === FILTER.IMPORTANT ? styles.form__button_active : ''}`}
-        type="button">
+      </FilterButton>
+      <FilterButton active={String(tasksType === FILTER.IMPORTANT)} type="button">
         {FILTER.IMPORTANT}
-      </button>
-    </div>
+      </FilterButton>
+    </StyledButtonGroup>
   );
 };
 

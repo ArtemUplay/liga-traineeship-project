@@ -3,3 +3,7 @@ export interface ITaskButtonProps {
   isCompleted: boolean;
   isImportant: boolean;
 }
+
+export interface ITaskStyledButtonProps {
+  active?: string;
+}

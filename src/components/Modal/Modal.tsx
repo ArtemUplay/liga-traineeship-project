@@ -1,6 +1,5 @@
-import styles from './Modal.module.scss';
-import { closeModal, useTasksSlice } from 'src/store/slices';
-import { useAppDispatch } from 'src/store';
+import { ModalButton, ModalContent, ModalOverlay, ModalText, ModalTitleIdTypography } from 'src/components/Modal';
+import { closeModal, useTasksSlice, useAppDispatch } from 'src/store';
 
 export const Modal = () => {
   const dispatch = useAppDispatch();
@@ -18,18 +17,18 @@ export const Modal = () => {
   };
 
   return (
-    <div onClick={onModalOverlayClick} className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <h2 className={styles['title-id']}>Task id: {taskInModal?.id}</h2>
-        <h2 className={styles.text}>Task name: {taskInModal?.name}</h2>
-        <p className={styles.text}>Task info: {taskInModal?.info}</p>
-        <p className={styles.text}>Task is Important: {taskInModal?.isImportant ? 'yes' : 'no'}</p>
-        <p className={styles.text}>Task is Completed: {taskInModal?.isImportant ? 'yes' : 'no'}</p>
+    <ModalOverlay onClick={onModalOverlayClick}>
+      <ModalContent>
+        <ModalTitleIdTypography variant="h3">Task id: {taskInModal?.id}</ModalTitleIdTypography>
+        <ModalText variant="h2">Task name: {taskInModal?.name}</ModalText>
+        <ModalText>Task info: {taskInModal?.info}</ModalText>
+        <ModalText>Task is Important: {taskInModal?.isImportant ? 'yes' : 'no'}</ModalText>
+        <ModalText>Task is Completed: {taskInModal?.isImportant ? 'yes' : 'no'}</ModalText>
 
-        <button className={styles.button} onClick={onButtonClose} type="button">
+        <ModalButton onClick={onButtonClose} type="button">
           Close
-        </button>
-      </div>
-    </div>
+        </ModalButton>
+      </ModalContent>
+    </ModalOverlay>
   );
 };

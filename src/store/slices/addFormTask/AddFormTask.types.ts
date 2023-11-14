@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { ITask } from 'types/app';
 
 export type TNewTask = Omit<ITask, 'id' | 'isCompleted'>;
