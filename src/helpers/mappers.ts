@@ -1,4 +1,4 @@
-import { TPostTaskRequestWithRequiredId } from './mappers.types';
+import { TPostTaskRequestWithRequiredId } from 'src/helpers';
 import { GetAllTasksQuery, GetAllTasksResponse, GetTaskResponse } from 'api/model';
 import { FILTER } from 'constants/constants';
 import { ISearchForm, ITask } from 'types/app';
