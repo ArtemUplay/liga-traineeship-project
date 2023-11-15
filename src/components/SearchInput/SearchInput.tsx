@@ -1,5 +1,4 @@
-import { ISearchInputProps } from './SearchInput.types';
-import { StyledTextField } from './SearchInput.styles';
+import { StyledTextField, ISearchInputProps } from 'src/components/SearchInput';
 
 export const SearchInput = (props: ISearchInputProps) => {
   return <StyledTextField {...props} />;
