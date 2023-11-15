@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import { editFormTask, tasks } from './slices';
-import { addFormTask } from './slices/addFormTask';
+import { editFormTask, tasks, addFormTask } from 'src/store/slices';
 
 export const store = configureStore({
   reducer: {
