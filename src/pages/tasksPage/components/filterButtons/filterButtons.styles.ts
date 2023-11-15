@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material';
 import styled from '@emotion/styled';
-import { IFilterButtonProps } from './filterButtons.types';
+import { IFilterButtonProps } from 'src/pages/tasksPage/components/filterButtons/filterButtons.types';
 import { SOFT_PURPLE_COLOR, WHITE_COLOR } from 'constants/colors';
 
 export const StyledButtonGroup = styled(ButtonGroup)({
